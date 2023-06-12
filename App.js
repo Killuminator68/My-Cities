@@ -4,11 +4,13 @@ import Login from './screen/login';
 import Validation from './screen/valid';
 import Homepage from './screen/homepage';
 import Modify from './screen/modify';
+import ModifBuildings from './screen/modifbuildings';
 import Inscription from './screen/inscription';
 import Cities from './screen/cities';
 import Buildings from './screen/buildings';
 import Building from './screen/building';
 import AddBuilding from './screen/addbuilding';
+import AddBuildingForm from './screen/addbuildingform';
 import Admin from './screen/admin';
 import Camera from './screen/camera';
 import Promote from './screen/promote';
@@ -26,15 +28,17 @@ export default function App() {
     <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Homepage" component={Homepage} options={{ headerShown: false }} />
+          <Stack.Screen name="homepage" component={Homepage} options={{ headerShown: false }} />
           <Stack.Screen name="inscription" component={Inscription} options={{ headerShown: false }} />
           <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="valid" component={Validation} options={{ headerShown: false }} />
           <Stack.Screen name="modify" component={Modify} options={{ headerShown: false }} />
+          <Stack.Screen name="modifbuildings" component={ModifBuildings} options={{ headerShown: false }} />
           <Stack.Screen name="cities" component={Cities} options={{ headerShown: false }} />
           <Stack.Screen name="buildings" component={Buildings} options={{ headerShown: false }} />
           <Stack.Screen name="building" component={Building} options={{ headerShown: false }} />
           <Stack.Screen name="addbuilding" component={AddBuilding} options={{ headerShown: false }} />
+          <Stack.Screen name="addbuildingform" component={AddBuildingForm} options={{ headerShown: false }} />
           <Stack.Screen name="admin" component={Admin} options={{ headerShown: false }} />
           <Stack.Screen name="promote" component={Promote} options={{ headerShown: false }} />
           <Stack.Screen name="pending" component={Pending} options={{ headerShown: false }} />

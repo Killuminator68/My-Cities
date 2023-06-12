@@ -1,20 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableHighlight } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, View, Text, Image, ImageBackground, TouchableHighlight } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as SQLite from 'expo-sqlite';
-import city from '../assets/city.jpg';
-import logo from '../assets/logo.png';
+
+import Inscription from './inscription';
+import Login from './login';
+import Cities from './cities';
+import Building from './building';
 
 const Tab = createBottomTabNavigator();
 
 function HomepageScreen({ navigation }) {
   const [buttonPressed, setButtonPressed] = React.useState(false);
-
-  React.useEffect(() => {
-    createusertable();
-  }, []);
 
   const createusertable = () => {
     const db = SQLite.openDatabase('data.db');
@@ -25,117 +23,85 @@ function HomepageScreen({ navigation }) {
     });
   };
 
+  React.useEffect(() => {
+    createusertable();
+  }, []);
+
   const handleButtonPress = () => {
     setButtonPressed(!buttonPressed);
   };
 
+  const city = require('../assets/city.jpg');
+  const logo = require('../assets/logo.png');
+
   return (
-    <View style={styles.container}>
-      <Image source={city} style={styles.backgroundImage} resizeMode="cover" />
-      <Image source={logo} style={styles.logo} />
-      <View style={styles.content}>
-        <Text style={styles.subtitle}>Découvrez les trésors architecturaux</Text>
-        <TouchableHighlight
-          style={[styles.headerButton, buttonPressed && styles.headerButtonPressed]}
-          underlayColor="lightGray"
-          onPress={() => navigation.navigate('login')}
-          onHideUnderlay={() => setButtonPressed(false)}
-          onShowUnderlay={() => setButtonPressed(true)}
-        >
-          <Text style={styles.buttonText}>Connexion</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={[styles.headerButton, buttonPressed && styles.headerButtonPressed]}
-          underlayColor="lightGray"
-          onPress={() => navigation.navigate('cities')}
-          onHideUnderlay={() => setButtonPressed(false)}
-          onShowUnderlay={() => setButtonPressed(true)}
-        >
-          <Text style={styles.buttonText}>Villes</Text>
-        </TouchableHighlight>
+    <ImageBackground source={city} style={styles.background}>
+      <View style={styles.container}>
+        <Image source={logo} style={styles.logo}/>
+        <Text style={styles.title}>Welcome to Visit My Cities</Text>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            if (route.name === 'Home') {
-              iconName = focused ? 'ios-home' : 'ios-home-outline';
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-          style: {
-            backgroundColor: 'white',
-          },
-        }}
-      >
-        <Tab.Screen name="Home" component={HomepageScreen} />
-        {/*...autres écrans ici...*/}
-      </Tab.Navigator>
-          </NavigationContainer>
-  );
-}
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'lightGreen',
+    justifyContent: 'flex-start', // Change 'center' to 'flex-start'
+    alignItems: 'center',
+    marginTop: -20, // Add margin at the top
   },
-  backgroundImage: {
+  background: {
     flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
+    resizeMode: 'cover', 
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: -25,
   },
   logo: {
-    position: 'absolute',
-    top: -40,
-    left: 90,
-    width: 200,
-    height: 200,
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
-    marginBottom: 10,
-  },
-  headerButton: {
-    margin: 5,
-    width: '60%', 
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'black',
-    justifyContent:   'center',
-    alignItems: 'center',
-    marginBottom: 10, 
-  },
-  headerButtonPressed: {
-    backgroundColor: 'lightGray',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
+    width: 150,
+    height: 150,
+    marginBottom: 20
+  }
 });
 
+
+export default function Homepage() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Inscription') {
+            iconName = focused ? 'list' : 'list-outline';
+          } else if (route.name === 'Login') {
+            iconName = focused ? 'log-in' : 'log-out';
+          } else if (route.name === 'Cities') {
+            iconName = focused ? 'locate' : 'navigate';
+          } else if (route.name === 'Building') {
+            iconName = focused ? 'home' : 'home-outline';
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: 'white',
+        },
+      }}
+    >
+      <Tab.Screen name="Home" component={HomepageScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Inscription" component={Inscription} />
+      <Tab.Screen name="Login" component={Login} />
+      <Tab.Screen name="Cities" component={Cities} />
+      <Tab.Screen name="Building" component={Building} />
+    </Tab.Navigator>
+  );
+}

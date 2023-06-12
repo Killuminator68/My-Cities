@@ -1,8 +1,18 @@
 import React from 'react';
-import {StyleSheet,Button,View,TouchableOpacity,SafeAreaView,Text,Image,Alert,useEffect,setInterval,TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Button,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  Text,
+  Image,
+  Alert,
+  useEffect,
+  setInterval,
+  TextInput
+} from 'react-native';
 import {connect} from "react-redux";
-import { useNavigation } from '@react-navigation/native';
-import logo from '../assets/logo2.png';
 
 
 
@@ -12,6 +22,7 @@ import logo from '../assets/logo2.png';
         super(props);
         this.state={
             buildings:[],
+            type:[]
         }      
 }
 
@@ -34,7 +45,6 @@ componentDidMount(){
             for(let i=0;i<json.length;i++){
                 arr.push([json[i].build_name,json[i].build_id]);
             }
-            console.log(arr);
             this.setState({buildings:arr});
           }else{
             console.log('salut');
@@ -51,17 +61,11 @@ render(){
     const {navigate} = this.props.navigation;
     return(
         <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigate('Homepage')} style={styles.returnLink}>
-        <Text style={styles.returnText}>&larr; Accueil</Text>
-        </TouchableOpacity>
-        <Image source={logo} style={styles.logo} />
             
         {this.state.buildings.map((building, Building) => (
         <View  key={Building}>
                 <View >
-                <TouchableOpacity onPress={() => navigate("building",{id:building[1]})}>
-                <Text style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>{building[0]}{favs && favs.includes(building[1]) ? "⭐" : ""}</Text>
-</TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate("building",{id:building[1]})}><Text>{building[0]}{favs.includes(building[1])?"⭐":""}</Text></TouchableOpacity>
                 </View>
         </View>))}
 
@@ -71,28 +75,10 @@ render(){
 const styles = StyleSheet.create({
 container:{
     flex: 1,
-    backgroundColor: '#545454',
+    backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
   },
-returnLink: {
-        position: 'absolute',
-        top: 30,
-        left: 10,
-        zIndex: 1,
-    },
-    returnText: {
-        color: 'white',
-        fontSize: 12,
-        fontWeight:'bold',
-    },  
-logo: {
-    position: 'absolute',
-    top: 0,
-    left: 25,
-    width: 300,
-    height: 300,
-},  
 }
 )
 

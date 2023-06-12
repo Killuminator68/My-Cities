@@ -1,50 +1,63 @@
 import React from 'react';
-import {StyleSheet,Button,View,SafeAreaView,Text,Alert,TextInput,TouchableOpacity,Image} from 'react-native';
-import { connect } from "react-redux";
-import logo from '../assets/logo2.png';
+import {
+  StyleSheet,
+  Button,
+  View,
+  SafeAreaView,
+  Text,
+  Alert,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import { connect } from 'react-redux';
+import logo from '../assets/logo3.png';
 
 class Inscription extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      pass: "",
-      lname: "",
-      fname: "",
-      tel: "",
-      civ: ""
-    }
+      email: '',
+      pass: '',
+      lname: '',
+      fname: '',
+      tel: '',
+      civ: '',
+    };
   }
 
   testinputs() {
     const { navigate } = this.props.navigation;
     const formdata = new FormData();
-    if (this.state.email === "" || this.state.pass === "") {
-      Alert.alert("Veuillez remplir tous les champs.", "", [{ text: "ok", onPress: () => console.log("test") }], { cancelable: false });
+    if (
+      this.state.login == '' ||
+      this.state.email == '' ||
+      this.state.pass == ''
+    ) {
+      Alert.alert('Veuillez remplir tous les champs.', '', [
+        { text: 'ok', onPress: () => console.log('test') },
+      ]);
     } else {
-      formdata.append("name", this.state.lname);
-      formdata.append("fname", this.state.fname);
-      formdata.append("mail", this.state.email);
-      formdata.append("pass", this.state.pass);
-      formdata.append("tel", this.state.tel);
-      formdata.append("civ", this.state.civ);
+      formdata.append('name', this.state.lname);
+      formdata.append('fname', this.state.fname);
+      formdata.append('mail', this.state.email);
+      formdata.append('pass', this.state.pass);
+      formdata.append('tel', this.state.tel);
+      formdata.append('civ', this.state.civ);
 
       fetch('http://jdevalik.fr/api/mycities/usersinsert.php', {
         method: 'POST',
         body: formdata,
         headers: {
-          "Content-Type": "multipart/form-data"
+          'Content-Type': 'multipart/form-data',
         },
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((json) => {
           if (json == false) {
-            Alert.alert(
-              'Erreur',
-              'Cet Email n\'est pas disponible.',
-              [
-                { text: 'OK' },
-              ],
-            );
+            Alert.alert('Erreur', 'Cet Email n\'est pas disponible.', [
+              { text: 'OK' },
+            ]);
           } else {
             navigate('Homepage');
           }
@@ -57,73 +70,70 @@ class Inscription extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
-       <Image source={logo} style={styles.logo} />
-       <Text style={{ color: 'white', fontSize: 22, textAlign: 'center' }}>Connexion</Text>
-        <TouchableOpacity onPress={() => navigate('Homepage')} style={styles.returnLink}>
-        <Text style={styles.returnText}>&larr; Accueil</Text>
-        </TouchableOpacity>
-        <Text style={{ color: 'white', fontSize: 22, textAlign: 'center' }}></Text>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.title}>Inscription</Text>
         <View style={{ height: 5 }} />
         <TextInput
           style={styles.input}
           value={this.state.email}
-          onChangeText={text => this.setState({ email: text })}
+          onChangeText={(text) => this.setState({ email: text })}
           placeholder="E-mail"
-          keyboardType="default"
+          keyboardType="text"
         />
         <View style={{ height: 5 }} />
         <TextInput
           style={styles.input}
           value={this.state.pass}
-          onChangeText={text => this.setState({ pass: text })}
+          onChangeText={(text) => this.setState({ pass: text })}
           placeholder="Mot de passe"
-          keyboardType="default"
+          keyboardType="text"
         />
         <View style={{ height: 5 }} />
         <TextInput
           style={styles.input}
           value={this.state.lname}
-          onChangeText={text => this.setState({ lname: text })}
+          onChangeText={(text) => this.setState({ lname: text })}
           placeholder="Nom"
-          keyboardType="default"
+          keyboardType="text"
         />
         <View style={{ height: 5 }} />
         <TextInput
           style={styles.input}
           value={this.state.fname}
-          onChangeText={text => this.setState({ fname: text })}
+          onChangeText={(text) => this.setState({ fname: text })}
           placeholder="Prénom"
-          keyboardType="default"
+          keyboardType="text"
         />
         <View style={{ height: 5 }} />
         <TextInput
           style={styles.input}
           value={this.state.tel}
-          onChangeText={text => this.setState({ tel: text })}
+          onChangeText={(text) => this.setState({ tel: text })}
           placeholder="Téléphone"
-          keyboardType="default"
+          keyboardType="text"
         />
         <View style={{ height: 5 }} />
         <TextInput
           style={styles.input}
           value={this.state.civ}
-          onChangeText={text => this.setState({ civ: text })}
+          onChangeText={(text) => this.setState({ civ: text })}
           placeholder="Civilité"
-          keyboardType="default"
-          />
-          <View style={{ height: 5 }} />
-          <Button
-          style={{ margin: 10 }}
-          color='black'
+          keyboardType="text"
+        />
+        <View style={{ height: 5 }} />
+        <Button
+          style={styles.button}
+          color="black"
           title="Valider"
           onPress={() => this.testinputs()}
-          />
-          </View>
-        );
-      }
-    }
+        />
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -131,38 +141,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#545454',
     alignItems: 'center',
     justifyContent: 'center',
-    margintop: 0,
   },
-  returnLink: {
-    position: 'absolute',
-    top: 50, 
-    left: 10,
-  },
-  returnText: {
+  title: {
     color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 22,
+    textAlign: 'center',
+    marginTop: -50, // Adjust the margin top value to position the title
   },
   input: {
     height: 40,
     width: 220,
     borderWidth: 1,
     padding: 10,
-    margin: 10,
-    margintop: -50,
     backgroundColor: 'white',
+    margin: 10,
+  },
+  button: {
+    backgroundColor: 'black',
+    borderRadius: 20,
+    height: 35,
+    width: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
   },
   logo: {
     position: 'absolute',
-    top: -40,
-    left: 80,
-    width: 200,
-    height: 200,
-  },  
+    top: -30,
+    left: 100,
+    width: 150,
+    height: 150,
+  },
 });
 
 const mapStateToProps = (state) => {
-return state;
-}
+  return state;
+};
 
-export default connect(mapStateToProps)(Inscription);
+export default connect(mapStateToProps)(Inscription); 

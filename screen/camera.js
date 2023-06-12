@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 
 
-export default class CameraS extends React.Component 
+export default class Camera_screen extends React.Component 
 {
     constructor(props) {
         super(props);
@@ -15,11 +15,14 @@ export default class CameraS extends React.Component
             uri: null,
             photoName : "nomdelaphoto",
             arr: [],
-            arrN: ""
+            arrN: "",
+            building_id:0
         };
     }
     componentDidMount(){
-        this.useEffect()
+        this.useEffect();
+        let buildid = {id:this.props.route.params.id};
+        this.setState({building_id:buildid.id});
     }
 
     async useEffect(){
@@ -80,10 +83,10 @@ export default class CameraS extends React.Component
     async upload()
     {
         const formdata = new FormData()
-        formdata.append('file_attachment', {uri: this.state.uri, name: `${this.state.photoName}.jpg`, type:'image/jpeg'})
-        formdata.append('buildid', 1)
-        formdata.append('name', this.state.photoName)
-        console.log("image uri : " + this.state.uri)
+        formdata.append('file_attachment', {uri: this.state.uri, name: `${this.state.photoName}.jpg`, type:'image/jpeg'});
+        formdata.append('buildid', this.state.building_id);
+        formdata.append('name', this.state.photoName);
+        console.log("image uri : " + this.state.uri);
         return await fetch('http://jdevalik.fr/api/mycities/photos/upload.php',
         {
             method:'POST',
@@ -158,7 +161,7 @@ export default class CameraS extends React.Component
             return <View/>;
         }
         if (this.state.hasPermission === false) {
-            return <Text>Aucun accès à la camera</Text>;
+            return <Text>Pas d'accès à la camera</Text>;
         }
 
         return (
@@ -241,6 +244,7 @@ export default class CameraS extends React.Component
                     >
                             <Text style={{color: "red"}}> Display </Text>
                     </TouchableOpacity>
+                    
                     <Image 
                         source={{uri:`http://jdevalik.fr/api/mycities/photos/uploads/${this.state.arrN}.jpg`}}
                         style=

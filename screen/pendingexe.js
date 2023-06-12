@@ -62,87 +62,45 @@ componentDidMount(){
 }
 
 pendexe(boolt){
-    console.log(this.state.bd_id);
+    
     const {navigate} = this.props.navigation;
     const formdata = new FormData;
     formdata.append("valid",boolt);
     formdata.append("id",this.state.bd_id);
-    fetch('http://jdevalik.fr/api/mycities/pendingexe.php', {
+    fetch('http://jdevalik.fr/api/mycities/pendingex.php', {
         method: 'POST', 
         body: formdata, 
         headers: {
             "Content-Type": "multipart/form-data"
-        },})
-    navigate("pending");
-    }
-
+        },}).then((response) => response.json())
+        .then((json) => {
+            if(json != false){
+                 navigate("admin");}
+        })
+}
+        
 render(){
-    const {navigate} = this.props.navigation;
-
     return(
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigate('admin')} style={styles.returnLink}>
-                <Text style={styles.returnText}>&larr; Retour </Text>
-            </TouchableOpacity>
-
-            <Text style={styles.titleText}>{this.state.bd_name}</Text>
-            <Text style={styles.normalText}>{this.state.bd_description}</Text>
-            <Text style={styles.normalText}>{this.state.bd_year}</Text>
-            <Text style={styles.normalText}>{this.state.bd_address}</Text>
-
-            <TouchableOpacity style={styles.button} onPress={() => this.pendexe(1)}>
-                <Text style={styles.buttonText}>Valider</Text>
-            </TouchableOpacity> 
-
-            <TouchableOpacity style={styles.button} onPress={() => this.pendexe(0)}>
-                <Text style={styles.buttonText}>Supprimer</Text>
-            </TouchableOpacity>
+            <Text>{this.state.bd_name}</Text>
+            <Text>{this.state.bd_description}</Text>
+            <Text>{this.state.bd_year}</Text>
+            <Text>{this.state.bd_address}</Text>
+            <Button  title="Valider" onPress={() => this.pendexe("y") }/> 
+            <Button  title="Supprimer" onPress={() =>  this.pendexe("n") }/>
         </View>
     )
 }
 }
 
+
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#545454',
+      backgroundColor: 'pink',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 20,
     },
-    titleText: {
-      color: 'white',
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-      
-    },
-    normalText: {
-      color: 'white',
-      fontSize: 16,
-      marginBottom: 10,
-    },
-    button: {
-      backgroundColor: 'black',
-      padding: 10,
-      borderRadius: 5,
-      width: '50%',
-      alignItems: 'center',
-      margin: 10,
-    },
-    buttonText: {
-      color: 'white',
-      fontSize: 15,
-    },
-    returnLink: {
-        position: 'absolute',
-        top: 30,
-        left: 10,
-        zIndex: 1,
-    },
-    returnText: {
-        color: 'white',
-        fontSize: 12,
-        fontWeight:'bold',
-    },
-});
+  
+  });
