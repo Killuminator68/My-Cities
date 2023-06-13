@@ -12,7 +12,7 @@ import Building from './screen/building';
 import AddBuilding from './screen/addbuilding';
 import AddBuildingForm from './screen/addbuildingform';
 import Admin from './screen/admin';
-import Camera from './screen/camera';
+import CameraScreen from './screen/camera';
 import Promote from './screen/promote';
 import Pending from './screen/pending';
 import Pendingexe from './screen/pendingexe';
@@ -43,7 +43,7 @@ export default function App() {
           <Stack.Screen name="promote" component={Promote} options={{ headerShown: false }} />
           <Stack.Screen name="pending" component={Pending} options={{ headerShown: false }} />
           <Stack.Screen name="pendingexe" component={Pendingexe} options={{ headerShown: false }} />
-          <Stack.Screen name="camera" component={Camera} options={{ headerShown: false }} />
+         <Stack.Screen name="camera" component={CameraScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

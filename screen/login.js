@@ -112,8 +112,8 @@ render() {
         keyboardType="default"
         secureTextEntry={true}
       />
-      <TouchableOpacity style={styles.button} onPress={() => navigate('inscription')}>
-        <Text style={styles.buttonText}>Inscription</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigate('valid')}>
+        <Text style={styles.buttonText}>Connexion</Text>
       </TouchableOpacity>
     </View>
   );
