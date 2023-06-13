@@ -6,9 +6,12 @@ import {
   View,
   SafeAreaView,
   Text,
+  Image,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
+import logo from '../assets/logo3.png';
 
 class Validation extends React.Component {
   constructor(props) {
@@ -27,56 +30,31 @@ class Validation extends React.Component {
     navigate('modify');
   }
 
-  test() {
-    const { favs } = this.props;
-    console.log(favs);
-  }
-
-  render() {
-    const { crnt_usr } = this.props;
-    const { crnt_role } = this.props;
-    const { crnt_id } = this.props;
-    const { navigate } = this.props.navigation;
-
-    console.log(this.props.crnt_role);
+ 
+   render() {
+    const { crnt_usr, crnt_role, crnt_id, navigate } = this.props;
 
     return (
       <View style={styles.container}>
-        <Text style={{ color: 'white', fontSize: 22, textAlign: 'center' }}>
-          Vous êtes connecté
-        </Text>
-        <View style={{ height: 20 }} />
-        <Text>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.title}>Vous êtes connecté</Text>
+        <Text style={styles.subtitle}>
           Bienvenue {crnt_usr} {crnt_role} {crnt_id} sur notre application
-          d'inscription connection.
         </Text>
-        <View style={{ height: 20 }} />
-        <WhiteButton
-          style={{ height: 20 }}
-          val="Modification"
-          onPress={() => this.modif()}
-        ></WhiteButton>
-        <WhiteButton
-          style={{ height: 20 }}
-          val="Déconnexion"
-          onPress={() => this.deco()}
-        ></WhiteButton>
-        <WhiteButton
-          style={{ height: 20 }}
-          val="test"
-          onPress={() => this.test()}
-        ></WhiteButton>
-        <WhiteButton
-          style={{ height: 20 }}
-          val="city"
-          onPress={() => navigate('cities')}
-        ></WhiteButton>
-        <WhiteButton
-          style={{ height: 20 }}
-          val="addbuild"
-          onPress={() => navigate('addbuild')}
-        ></WhiteButton>
-        <View style={{ height: 20 }} />
+        <TouchableOpacity style={styles.button} onPress={this.modif}>
+          <Text style={styles.buttonText}>Modification</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={this.deco}>
+          <Text style={styles.buttonText}>Déconnexion</Text>
+        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.secondaryButton} onPress={() => navigate('cities')}>
+            <Text style={styles.secondaryButtonText}>City</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.secondaryButton} onPress={() => navigate('addbuilding')}>
+            <Text style={styles.secondaryButtonText}>Add Building</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -88,10 +66,61 @@ const styles = StyleSheet.create({
     backgroundColor: '#545454',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  logo: {
+    width: 300,
+    height: 300,
+    marginBottom: 20,
+  },
+  title: {
+    color: 'white',
+    fontSize: 22,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  subtitle: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: 'black',
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  secondaryButton: {
+    backgroundColor: 'black',
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    flex: 1,
+    marginLeft: 5,
+  },
+  secondaryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
 const mapStateToProps = (state) => {
   return state;
 };
+
 export default connect(mapStateToProps)(Validation);
